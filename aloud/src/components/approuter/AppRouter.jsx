@@ -8,6 +8,7 @@ const Footer = lazy(() => import('../footer/Footer'))
 const Layout = lazy(() => import('../layout/layout'))
 const Who = lazy(() => import('../../Pages/Who/Who'))
 const Booklist = lazy(() => import('../../Pages/Booklist/Booklist'))
+const BookDetail = lazy(() => import('../../Pages/BookDetail/BookDetail'))
 const Loader =  lazy(() => import ('../loader/Loader')) 
 
 
@@ -31,6 +32,10 @@ const routers = createBrowserRouter([
             {
                 path: "booklist",
                 element: <Booklist/>
+            },
+            {
+                path: "/book/:id",
+                element: <BookDetail/>
             }
         ]
 
