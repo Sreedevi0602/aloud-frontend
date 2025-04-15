@@ -30,7 +30,6 @@ const BookDetail = () => {
           <p><strong>Book ID:</strong> {book.bookid}</p>
           <p><strong>Author:</strong> {book.author}</p>
           <p><strong>Price:</strong> {new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR" }).format(book.price)}</p>
-          <p><strong>Category:</strong> {book.category}</p>
           <p><strong>Description:</strong></p>
           <p>{book.description}</p>
         </div>
