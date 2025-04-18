@@ -1,44 +1,62 @@
 import './CategoryDetails.css';
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import Loader from '../../components/loader/Loader';
 
 const CategoryDetails = () => {
-    const { id } = useParams(); // Get the category ID from the URL params
-    const [category, setCategory] = useState(null); // State to hold category data
-    const [error, setError] = useState(null); // State to track any errors during fetch
+  const { id } = useParams(); // Get category ID from URL
+  const [category, setCategory] = useState(null); // Hold category and books
+  const [error, setError] = useState(null); // Track errors
 
-    // Fetch category details based on the ID when the component mounts or the ID changes
-    useEffect(() => {
-        fetch(`http://localhost:8000/api/categories/${id}/`) // Update the URL if needed
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error('Failed to fetch category details');
-                }
-                return response.json();
-            })
-            .then((data) => setCategory(data)) // Store category data in the state
-            .catch((error) => setError(error.message)); // Catch any errors and update the error state
-    }, [id]); // Dependency array ensures this runs when `id` changes
+  useEffect(() => {
+    fetch(`http://localhost:8000/api/categories/${id}/`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Failed to fetch category details');
+        }
+        return response.json();
+      })
+      .then((data) => setCategory(data))
+      .catch((error) => setError(error.message));
+  }, [id]);
 
-    // Display loading text until the category data is fetched
-    if (!category) {
-        return <div><Loader/></div>;
-    }
+  if (!category) {
+    return <div><Loader /></div>;
+  }
 
-    // Handle errors if any
-    if (error) {
-        return <div>Error: {error}</div>;
-    }
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
-    return (
-        <div className="category-details">
-            <h1><center>{category.name}</center></h1> {/* Display category name */}
-            {/* You can add more category details here, like description, items, etc. */}
-            {/* Example: If there's more info */}
-            {/* <p>{category.description}</p> */}
-        </div>
-    );
+  const books = category.books;
+
+  return (
+    <div className="container mt-4">
+      <h2 className="text-center mb-4">{category.name}</h2>
+      <div className="row">
+        {books && books.length > 0 ? (
+          books.map(book => (
+            <div className="col-md-3 mb-4" key={book.bookid}>
+              <div className="card h-100 shadow">
+                <Link to={`/book/${book.bookid}`} className="text-decoration-none text-dark">
+                  <img src={`http://127.0.0.1:8000${book.photo}`} className="card-img-top" alt={book.name} />
+                  <div className="card-body">
+                    <h5 className="card-title">{book.name}</h5>
+                    <p className="card-text"><strong>Author:</strong> {book.author}</p>
+                    <strong>Price:</strong> {new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR" }).format(book.price)}
+                  </div>
+                </Link>
+              </div>
+            </div>
+          ))
+        ) : (
+          <div className="text-center">
+            <p>No books available in this category.</p>
+          </div>
+        )}
+      </div>
+    </div>
+  );
 };
 
 export default CategoryDetails;
