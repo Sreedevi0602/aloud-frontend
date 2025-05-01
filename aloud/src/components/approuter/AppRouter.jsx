@@ -6,6 +6,8 @@ import {createBrowserRouter, Outlet, RouterProvider} from 'react-router-dom'
 
 
 
+
+
 const Navbar = lazy(() => import('../Navbar/Navbar'))
 const Footer = lazy(() => import('../footer/Footer'))
 const Layout = lazy(() => import('../layout/layout'))
@@ -14,6 +16,8 @@ const Booklist = lazy(() => import('../../Pages/Booklist/Booklist'))
 const BookDetail = lazy(() => import('../../Pages/BookDetail/BookDetail'))
 const CategoryList = lazy(() => import('../../Pages/CategoryList/CategoryList'))
 const CategoryDetails = lazy(() => import('../../Pages/CategoryDetails/CategoryDetails'))
+const SignupForm = lazy(() => import('../../Pages/Signup/SignupForm'))
+const LoginForm = lazy(() => import('../../Pages/Login/LoginForm'))
 const Loader =  lazy(() => import ('../loader/Loader')) 
 
 
@@ -49,7 +53,14 @@ const routers = createBrowserRouter([
             {
                 path: "/category/:id",
                 element: <CategoryDetails/>
-            }
+            },
+            {
+                path: "/signup",
+                element: <SignupForm/>
+            },{
+                path: "/login",
+                element: <LoginForm/>
+            },
             
         ]
 
